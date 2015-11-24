@@ -5,6 +5,8 @@
  */
 package hex;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author atrain99
@@ -12,6 +14,8 @@ package hex;
 public class Hex {
     
     private HexBoard gameBoard;
+    
+    private JFrame gameWindow;
     /**
      * @param args the command line arguments
      */
