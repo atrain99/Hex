@@ -11,9 +11,9 @@ import java.util.NoSuchElementException;
 public class HexagonalPathIterator implements PathIterator {
 
     private double x, y, r, a;
-    
+
     private int index;
-    
+
     private AffineTransform transformer;
 
     public HexagonalPathIterator(Hexagon h, AffineTransform at) {
@@ -34,7 +34,7 @@ public class HexagonalPathIterator implements PathIterator {
 
     @Override
     public boolean isDone() {
-        return this.index > 7;
+        return this.index > 6;
     }
 
     @Override
@@ -50,19 +50,33 @@ public class HexagonalPathIterator implements PathIterator {
         if (index == 6) {
             return SEG_CLOSE;
         }
-        coords[0] = (float) (this.x - this.r);
+        coords[0] = (float) (this.x);
         coords[1] = (float) (this.y);
-        switch(index){
+
+        switch (index) {
+            case 0:
+                coords[0] -= (float) this.r;
+                break;
+            case 1:
+                coords[0] -= (float) (this.r / 2);
+                coords[1] -= (float) (this.a);
+                break;
             case 2:
+                coords[0] += (float) (this.r / 2);
+                coords[1] -= (float) this.a;
                 break;
             case 3:
+                coords[0] += (float) (this.r);
                 break;
             case 4:
+                coords[0] += (float) (this.r / 2);
+                coords[1] += (float) (this.a);
                 break;
             case 5:
+                coords[0] -= (float) (this.r / 2);
+                coords[1] += (float) (this.a);
                 break;
-            case 6:
-                break;
+                
         }
         if (transformer != null) {
             transformer.transform(coords, 0, coords, 0, 1);
@@ -72,7 +86,43 @@ public class HexagonalPathIterator implements PathIterator {
 
     @Override
     public int currentSegment(double[] coords) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        if (isDone()) {
+            throw new NoSuchElementException("hex iterator out of bounds");
+        }
+        if (index == 6) {
+            return SEG_CLOSE;
+        }
+        coords[0] = (float) (this.x);
+        coords[1] = (float) (this.y);
+
+        switch (index) {
+            case 0:
+                coords[0] -= this.r;
+                break;
+            case 1:
+                coords[0] -= (this.r / 2);
+                coords[1] -= (this.a);
+                break;
+            case 2:
+                coords[0] += (this.r / 2);
+                coords[1] -= this.a;
+                break;
+            case 3:
+                coords[0] += (this.r);
+                break;
+            case 4:
+                coords[0] += (this.r / 2);
+                coords[1] += (this.a);
+                break;
+            case 5:
+                coords[0] -= (this.r / 2);
+                coords[1] += (this.a);
+                break;
+        }
+        if (transformer != null) {
+            transformer.transform(coords, 0, coords, 0, 1);
+        }
+        return (index == 0 ? SEG_MOVETO : SEG_LINETO);
     }
 
 }

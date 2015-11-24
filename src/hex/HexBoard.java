@@ -9,12 +9,14 @@ import java.awt.Color;
 public class HexBoard {
 
     private Stone[][] board;
+    private int numStones;
     /**
      * Creates a new, empty (Stones.NONE) game board.
      *
      * @param s The size of the board, both vertically and horizontally
      */
     public HexBoard(int s) {
+        this.numStones = s*s;
         this.board = new Stone[s][s];
         for (int i = 0; i < s; i++) {
             for (int j = 0; j < s; j++) {
@@ -87,6 +89,10 @@ public class HexBoard {
      */
     public boolean isBlack(int x, int y) {
         return this.board[y][x] == Stone.BLACK;
+    }
+    
+    public int getNumStones(){
+        return this.numStones;
     }
 
     /**

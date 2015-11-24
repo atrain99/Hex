@@ -1,5 +1,6 @@
 package hex;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -14,19 +15,35 @@ public class Hexagon implements Shape {
     private int xCenter;
     private int yCenter;
     private int radius;
+    
+    private Color color;
 
     private int apothem;
 
-    public Hexagon(int x, int y, int r) {
+    public Hexagon(int x, int y, int r, Color c) {
         this.xCenter = x;
         this.yCenter = y;
         this.radius = r;
 
+        this.color = c;
+        
         double a = 0.87 * r;
 
         this.apothem = (int) Math.ceil(a);
     }
 
+    public void setColor(Color c){
+        this.color = c;
+    }
+    
+    public Color getColor(){
+        return color;
+    }
+    
+    public boolean hasColor(){
+        return color != null;
+    }
+    
     public int getRadius() {
         return this.radius;
     }
@@ -69,22 +86,22 @@ public class Hexagon implements Shape {
 
     @Override
     public boolean intersects(double x, double y, double w, double h) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        return intersects(new Rectangle((int) x, (int) y, (int) w, (int) h));
     }
 
     @Override
     public boolean intersects(Rectangle2D r) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        return r.intersects(this.getBounds());
     }
 
     @Override
     public boolean contains(double x, double y, double w, double h) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        return this.contains(x, y) && this.contains(x+w, y+h);
     }
 
     @Override
     public boolean contains(Rectangle2D r) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight()); 
     }
 
     @Override
