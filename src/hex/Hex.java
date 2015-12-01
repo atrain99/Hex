@@ -6,6 +6,7 @@
 package hex;
 
 import java.awt.Container;
+import java.awt.Point;
 import javax.swing.JFrame;
 
 /**
@@ -14,7 +15,6 @@ import javax.swing.JFrame;
  */
 public class Hex {
 
-    private HexBoard gameBoard;
 
     private JFrame gameWindow;
     
@@ -24,22 +24,20 @@ public class Hex {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new Hex(7).run();
+        new Hex(11).run();
     }
     
     public Hex(int size){
         this.gameSize = size;
     }
 
-    private void run() {
-        gameBoard = new HexBoard(this.gameSize);
-        
+    private void run() {    
         gameWindow = new JFrame("Hex");
-        gameWindow.setBounds(300, 300, 500, 500);
+        gameWindow.setBounds(300, 300, 800, 600);
         gameWindow.setResizable(false);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = gameWindow.getContentPane();
-        c.add(new HexBoardPanel(gameBoard));
+        c.add(new HexBoardPanel(this.gameSize, 20, new Point(400, 50)));
         gameWindow.setVisible(true);
     }
 

@@ -20,8 +20,8 @@ public class Hexagon implements Shape {
 
     private int apothem;
     
-    private int boardX;
-    private int boardY;
+    private boolean isBlobbed = false;
+    
 
     public Hexagon(int x, int y, int r, Color c) {
         this.xCenter = x;
@@ -38,19 +38,6 @@ public class Hexagon implements Shape {
     public Hexagon(Point2D center, int radius, Color c){
         this((int) center.getX(), (int) center.getY(), radius, c);
     }
-    
-    public void setBoardPosition(int x, int y){
-        this.boardX = x;
-        this.boardY = y;
-    }
-    
-    public int getBoardX(){
-        return boardX;
-    }
-    
-    public int getBoardY(){
-        return boardY;
-    }
 
     public void setColor(Color c){
         this.color = c;
@@ -63,6 +50,18 @@ public class Hexagon implements Shape {
     
     public boolean hasColor(){
         return color != null;
+    }
+    
+    public void addToBlob(){
+        this.isBlobbed = true;
+    }
+    
+    public void removeFromBlob(){
+        this.isBlobbed = false;
+    }
+    
+    public boolean isPartOfBlob(){
+        return isBlobbed;
     }
     
     public int getRadius() {
