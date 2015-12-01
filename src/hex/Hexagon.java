@@ -19,6 +19,9 @@ public class Hexagon implements Shape {
     private Color color;
 
     private int apothem;
+    
+    private int boardX;
+    private int boardY;
 
     public Hexagon(int x, int y, int r, Color c) {
         this.xCenter = x;
@@ -31,6 +34,23 @@ public class Hexagon implements Shape {
 
         this.apothem = (int) Math.ceil(a);
     }
+    
+    public Hexagon(Point2D center, int radius, Color c){
+        this((int) center.getX(), (int) center.getY(), radius, c);
+    }
+    
+    public void setBoardPosition(int x, int y){
+        this.boardX = x;
+        this.boardY = y;
+    }
+    
+    public int getBoardX(){
+        return boardX;
+    }
+    
+    public int getBoardY(){
+        return boardY;
+    }
 
     public void setColor(Color c){
         this.color = c;
@@ -39,6 +59,7 @@ public class Hexagon implements Shape {
     public Color getColor(){
         return color;
     }
+    
     
     public boolean hasColor(){
         return color != null;

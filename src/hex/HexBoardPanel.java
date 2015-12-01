@@ -3,11 +3,9 @@ package hex;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.List;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.JPanel;
 
 /**
@@ -16,21 +14,29 @@ import javax.swing.JPanel;
  */
 public class HexBoardPanel extends JPanel{
     
-    private List<Hexagon> hexes;
+    private Hexagon[] hexes;
     
     private HexBoard board;
     
     private boolean p1Plays = true;
     
     public HexBoardPanel(HexBoard hb){
-        this.board = hb;
+        board = hb;
+        hexes = new Hexagon[hb.getNumHexes()];
         this.addMouseListener(new HexagonClickListener());
-        this.hexes = new ArrayList<>();
-        hexes.add(new Hexagon(100, 20, 20, null));
-        hexes.add(new Hexagon(70, 38, 20, null));
-        hexes.add(new Hexagon(130, 38, 20, null));
-        this.setBackground(Color.BLUE);
+        int apothem = (int) Math.ceil(0.87 * 20);
+        int radius = 20;
         
+        Point p = new Point(250, 50);
+        int hexNumber = 0;
+        for(int i = 0; i<board.getSize(); i++){
+            for (int j = 0; j<board.getSize(); j++){
+                hexes[hexNumber] = new Hexagon(p.x - ((3 * radius /2)*j), p.y + j*apothem, radius, null);
+                hexes[hexNumber].setBoardPosition(i, j);
+                hexNumber++;
+            }
+            p.translate(3 * radius / 2, apothem);
+        }
     }
     
     @Override
@@ -45,8 +51,7 @@ public class HexBoardPanel extends JPanel{
                 canvas.setColor(Color.BLACK);
                 canvas.draw(h);
             }
-        }
-        
+        }    
     }
     
     private class HexagonClickListener implements MouseListener{
@@ -58,11 +63,17 @@ public class HexBoardPanel extends JPanel{
                     if(!h.hasColor()){
                         if(p1Plays){
                             h.setColor(Color.BLACK);
+                            board.setBlack(h.getBoardX(), h.getBoardY());
                             p1Plays = false;
                         }else{
                             p1Plays = true;
+                            board.setWhite(h.getBoardX(), h.getBoardY());
                             h.setColor(Color.WHITE);
                         }
+                        if(board.hasColorWon(HexBoard.Stone.BLACK)){
+                            System.out.println("Black won");
+                        }
+                        break;
                     }
                 }
             }

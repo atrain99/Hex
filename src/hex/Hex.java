@@ -24,7 +24,7 @@ public class Hex {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new Hex(5).run();
+        new Hex(7).run();
     }
     
     public Hex(int size){
@@ -35,7 +35,7 @@ public class Hex {
         gameBoard = new HexBoard(this.gameSize);
         
         gameWindow = new JFrame("Hex");
-        gameWindow.setBounds(300, 300, 300, 200);
+        gameWindow.setBounds(300, 300, 500, 500);
         gameWindow.setResizable(false);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = gameWindow.getContentPane();
