@@ -40,6 +40,9 @@ public class Hexagon implements Shape {
     }
 
     public void setColor(Color c){
+        if(!c.equals(Color.WHITE) && !c.equals(Color.BLACK)){
+            return;
+        }
         this.color = c;
     }
     
@@ -47,6 +50,13 @@ public class Hexagon implements Shape {
         return color;
     }
     
+    public boolean isWhite(){
+        return color.equals(Color.WHITE);
+    }
+    
+    public boolean isBlack(){
+        return color.equals(Color.BLACK);
+    }
     
     public boolean hasColor(){
         return color != null;

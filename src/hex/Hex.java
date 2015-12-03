@@ -37,7 +37,7 @@ public class Hex {
         gameWindow.setResizable(false);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = gameWindow.getContentPane();
-        c.add(new HexBoardPanel(this.gameSize, 20, new Point(400, 50)));
+        c.add(new HexGamePanel(this.gameSize, 20, new Point(400, 50)));
         gameWindow.setVisible(true);
     }
 
