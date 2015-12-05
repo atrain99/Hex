@@ -22,7 +22,7 @@ public class HexGamePanel extends JPanel {
 
     public HexGamePanel(int size, int graphicsRadius, Point p) {
         gameBoard = new HexBoard(size);
-        border = new Hexagon[2 * (size + 2) + 2 * size];
+        border = new Hexagon[2 * (size + 1) + 2 * size];
         this.addMouseListener(new HexagonClickListener());
         this.setBackground(Color.DARK_GRAY);
         int apothem = (int) Math.ceil(0.87 * graphicsRadius);
@@ -69,10 +69,9 @@ public class HexGamePanel extends JPanel {
         super.paintComponent(g);
         Graphics2D canvas = (Graphics2D) g;
         for (Hexagon h : border) {
-            if (h != null) {
-                canvas.setColor(h.getColor());
-                canvas.fill(h);
-            }
+            canvas.setColor(h.getColor());
+            canvas.fill(h);
+
         }
         for (Hexagon h : gameBoard.getAllHexes()) {
             if (h.hasColor()) {
