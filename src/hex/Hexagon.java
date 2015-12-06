@@ -15,13 +15,12 @@ public class Hexagon implements Shape {
     private int xCenter;
     private int yCenter;
     private int radius;
-    
+
     private Color color;
 
     private int apothem;
-    
+
     private boolean isBlobbed = false;
-    
 
     public Hexagon(int x, int y, int r, Color c) {
         this.xCenter = x;
@@ -29,51 +28,58 @@ public class Hexagon implements Shape {
         this.radius = r;
 
         this.color = c;
-        
+
         double a = 0.87 * r;
 
         this.apothem = (int) Math.ceil(a);
     }
-    
-    public Hexagon(Point2D center, int radius, Color c){
+
+    public Hexagon(Point2D center, int radius, Color c) {
         this((int) center.getX(), (int) center.getY(), radius, c);
     }
 
-    public void setColor(Color c){
-        if(!c.equals(Color.WHITE) && !c.equals(Color.BLACK)){
-            return;
-        }
-        this.color = c;
+    public void setWhite() {
+        this.color = Color.WHITE;
     }
-    
-    public Color getColor(){
+
+    public void setBlack() {
+        this.color = Color.BLACK;
+    }
+
+    public Color getColor() {
         return color;
     }
-    
-    public boolean isWhite(){
-        return color.equals(Color.WHITE);
+
+    public boolean isWhite() {
+        if (hasColor()) {
+            return color.equals(Color.WHITE);
+        }
+        return false;
     }
-    
-    public boolean isBlack(){
-        return color.equals(Color.BLACK);
+
+    public boolean isBlack() {
+        if (hasColor()) {
+            return color.equals(Color.BLACK);
+        }
+        return false;
     }
-    
-    public boolean hasColor(){
+
+    public boolean hasColor() {
         return color != null;
     }
-    
-    public void addToBlob(){
+
+    public void addToBlob() {
         this.isBlobbed = true;
     }
-    
-    public void removeFromBlob(){
+
+    public void removeFromBlob() {
         this.isBlobbed = false;
     }
-    
-    public boolean isPartOfBlob(){
+
+    public boolean isPartOfBlob() {
         return isBlobbed;
     }
-    
+
     public int getRadius() {
         return this.radius;
     }
@@ -126,12 +132,12 @@ public class Hexagon implements Shape {
 
     @Override
     public boolean contains(double x, double y, double w, double h) {
-        return this.contains(x, y) && this.contains(x+w, y+h);
+        return this.contains(x, y) && this.contains(x + w, y + h);
     }
 
     @Override
     public boolean contains(Rectangle2D r) {
-        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight()); 
+        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     @Override

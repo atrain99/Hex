@@ -81,7 +81,6 @@ public class HexGamePanel extends JPanel {
             canvas.setColor(Color.BLACK);
             canvas.draw(h);
         }
-
     }
 
     private class HexagonClickListener implements MouseListener {
@@ -90,30 +89,18 @@ public class HexGamePanel extends JPanel {
 
         @Override
         public void mouseClicked(MouseEvent clickEvent) {
-            if (!isListening) {
-                return;
-            }
-            for (Hexagon h : gameBoard.getAllHexes()) {
-                if (h.contains(clickEvent.getPoint())) {
-                    if (blackPlays) {
-                        h.setColor(Color.BLACK);
-                        if (gameBoard.hasBlackWon()) {
-                            this.isListening = false;
-                            System.out.println("Black has won the game!");
+            if (isListening) {
+                for (int i = 0; i < gameBoard.getSize(); i++) {
+                    for (int j = 0; j < gameBoard.getSize(); j++) {
+                        if(gameBoard.getHex(i, j).contains(clickEvent.getPoint()) && !gameBoard.getHex(i, j).hasColor()){
+                            gameBoard.activateHex(i, j);
+                            gameBoard.checkForWin();
+                            repaint();
+                            return;
                         }
-                        blackPlays = false;
-                    } else {
-                        h.setColor(Color.WHITE);
-                        if (gameBoard.hasWhiteWon()) {
-                            System.out.println("White has won the game!");
-                        }
-                        blackPlays = true;
                     }
-                    repaint();
-                    return;
                 }
             }
-
         }
 
         @Override
