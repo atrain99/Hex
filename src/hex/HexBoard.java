@@ -2,18 +2,22 @@
 
 package hex;
 
+import hex.players.Player;
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class HexBoard {
     
     private Hexagon[][] gameGrid;
     
-    private List<Hexagon> hexList;
+    /**
+     * Array of the players playing the game -- only contains 2 references.
+     */
+    private Player[] players;
     
     private boolean whitePlays;
+    
+    public boolean containsWin;
     
     /**
      * Constructs a new game board.
@@ -23,7 +27,7 @@ public class HexBoard {
     public HexBoard(int size, boolean whiteFirst){
         whitePlays = whiteFirst;
         gameGrid = new Hexagon[size][size];
-        hexList = new ArrayList<>(size*size);
+        players = new Player[2];
     }
     
     /**
@@ -41,10 +45,6 @@ public class HexBoard {
      */
     public Hexagon[] getRow(int x){
         return gameGrid[x];
-    }
-    
-    public List<Hexagon> getAllHexes(){
-        return hexList;
     }
     
     /**
@@ -78,7 +78,6 @@ public class HexBoard {
         for (int i = 0; i < gameGrid.length; i++) {
             for (int j = 0; j < gameGrid.length; j++) {
                 gameGrid[i][j] = new Hexagon(head.x - ((3 * renderRadius / 2) * j), head.y + j * apothem, renderRadius, null);
-                hexList.add(gameGrid[i][j]);
             }
             head.translate(3 * renderRadius / 2, apothem);
         }
@@ -134,35 +133,13 @@ public class HexBoard {
         return false;
     }
     
-    public boolean hasWhiteWon() {
-        boolean hasWin = false;
-
-        for (int i = 0; i < this.gameGrid.length; i++) {
-            hasWin = markBlob(false, i, 0, true);
-            if (hasWin) {
-                break;
+    private void unmarkBlob(){
+        for(int i = 0; i < this.gameGrid.length; i++){
+            for(int j = 0; j<this.gameGrid.length; j++){
+                this.gameGrid[i][j].removeFromBlob();
             }
         }
-        for(Hexagon h : hexList){
-            h.removeFromBlob();
-        }
-        return hasWin;
     }
-
-    public boolean hasBlackWon() {
-        boolean hasWin = false;
-        for (int i = 0; i < this.gameGrid.length; i++) {
-            hasWin = markBlob(true, 0, i, false);
-            if (hasWin) {
-                break;
-            }
-        }
-        for(Hexagon h : hexList){
-            h.removeFromBlob();
-        }
-        return hasWin;
-    }
-
     /**
      * Changes the color at (x, y), based on whose turn it is.
      * Checks x and y for validity, does not check if the hexagon has a color.
@@ -187,30 +164,20 @@ public class HexBoard {
             hasWin = markBlob(true, 0, i, false);
             if (hasWin) {
                 System.out.println("Black has won!");
-                for (Hexagon h : hexList) {
-                    h.setBlack();
-                }
+                unmarkBlob();
                 break;
             }
         }
         if (!hasWin) {
-            for (Hexagon h : hexList) {
-                h.removeFromBlob();
-            }
+            unmarkBlob();
             for (int i = 0; i < this.gameGrid.length; i++) {
                 hasWin = markBlob(false, i, 0, true);
                 if (hasWin) {
                     System.out.println("White has won!");
-                    for (Hexagon h : hexList) {
-                        h.setWhite();
-                    }
                     break;
                 }
             }
         }
-        for(Hexagon h : hexList){
-            h.removeFromBlob();
-        }
-        
+        unmarkBlob();       
     }
 }

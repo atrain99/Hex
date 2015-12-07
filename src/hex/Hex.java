@@ -9,35 +9,20 @@ import java.awt.Container;
 import java.awt.Point;
 import javax.swing.JFrame;
 
-/**
- *
- * @author atrain99
- */
 public class Hex {
-
-
-    private JFrame gameWindow;
-    
-    private int gameSize;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new Hex(11).run();
-    }
-    
-    public Hex(int size){
-        this.gameSize = size;
-    }
-
-    private void run() {    
-        gameWindow = new JFrame("Hex");
+        JFrame gameWindow = new JFrame("Hex");
         gameWindow.setBounds(300, 300, 800, 600);
         gameWindow.setResizable(false);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = gameWindow.getContentPane();
-        c.add(new HexGamePanel(this.gameSize, 20, new Point(400, 50)));
+        Container contentPane = gameWindow.getContentPane();
+        HexGamePanel gamePanel = new HexGamePanel(11, 20, new Point(400, 50));
+        
+        contentPane.add(gamePanel);
         gameWindow.setVisible(true);
     }
 
