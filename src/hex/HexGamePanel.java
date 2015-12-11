@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,16 +18,15 @@ public class HexGamePanel extends JPanel {
 
     private Hexagon[] border;
 
-
     public HexGamePanel(int size, int graphicsRadius, Point p) {
         gameBoard = new HexBoard(size);
         border = new Hexagon[2 * (size + 1) + 2 * size];
-        Timer t = new Timer(100, new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                repaint();
-            }
-        });
+        Timer t = new Timer(100,
+                (ActionEvent e) -> {
+                    repaint();
+                }
+        );
+
         this.setBackground(Color.DARK_GRAY);
         int apothem = (int) Math.ceil(0.87 * graphicsRadius);
 
@@ -43,8 +41,8 @@ public class HexGamePanel extends JPanel {
     public HexGamePanel(int size) {
         this(size, 20, new Point(250, 50));
     }
-    
-    public HexBoard getGameBoard(){
+
+    public HexBoard getGameBoard() {
         return gameBoard;
     }
 
@@ -80,7 +78,6 @@ public class HexGamePanel extends JPanel {
         for (Hexagon h : border) {
             canvas.setColor(h.getColor());
             canvas.fill(h);
-
         }
         for (int i = 0; i < gameBoard.getSize(); i++) {
             for (int j = 0; j < gameBoard.getSize(); j++) {
